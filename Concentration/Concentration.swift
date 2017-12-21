@@ -6,10 +6,14 @@
 //  Copyright © 2017年 何品泰高. All rights reserved.
 //
 
+/*
+ * 还没完成作业前，这些都是横向按顺序的
+ */
+
 import Foundation
 
 class Concentration{
-    var cards = [Card]()
+    var cards = [Card]() //Card 的 Array
     
     var indexOfOneAndOnlyFaceUpCard: Int?
     /*
@@ -36,10 +40,17 @@ class Concentration{
     }
     
     init(numberOfPairsOfCards:Int){
-        for _ in 1...numberOfPairsOfCards{
+        for index in 1...numberOfPairsOfCards{
             let card = Card()
-            cards += [card,card] // 因为这里只有两个
+            let matchingCard = card
+//            cards.append(card)
+//            cards.append(matchingCard)
+            cards += [card,matchingCard] // 因为这里只有两个
+            if index == numberOfPairsOfCards{
+                print(cards)
+            }
         }
-        //Shuffle the cards
+        // TODO：Shuffle the cards
     }
 }
+
