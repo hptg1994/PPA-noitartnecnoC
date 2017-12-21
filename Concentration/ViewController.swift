@@ -11,19 +11,23 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards:(CardButtons.count + 1)/2)
+    private lazy var game = Concentration(numberOfPairsOfCards:numberOfPairsOfCards)
     
-    var flipCount = 0 {
+    private var numberOfPairsOfCards :Int{
+            return (CardButtons.count + 1)/2
+    }
+    
+    private(set) var flipCount = 0 {
         didSet{
             flipCountLabel.text = "Flips:\(flipCount)"
         }
     }
     
-    @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet private weak var flipCountLabel: UILabel!
     
-    @IBOutlet var CardButtons: [UIButton]!
+    @IBOutlet private var CardButtons: [UIButton]!
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    @IBAction private func touchCard(_ sender: UIButton) {
         flipCount += 1
         if let cardNumber = CardButtons.index(of: sender){
             game.chooseCard(at:cardNumber)
@@ -48,11 +52,11 @@ class ViewController: UIViewController {
         }
     }
     
-    var emojiChoice = ["😘","🧐","😑","😸","🤟","🧠","👥","👷‍♂️","👨‍💼","👨‍👦","👢"]
+    private var emojiChoice = ["😘","🧐","😑","😸","🤟","🧠","👥","👷‍♂️","👨‍💼","👨‍👦","👢"]
     
-    var emoji = [Int:String]()
+    private var emoji = [Int:String]()
     
-    func emoji(for card: Card) -> String{
+    private func emoji(for card: Card) -> String{
         
         if emoji[card.identifier] == nil , emojiChoice.count > 0{
                 // loading up dictionary,randomly choose one into dictionary
