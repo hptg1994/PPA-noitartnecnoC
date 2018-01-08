@@ -19,11 +19,24 @@ class ViewController: UIViewController {
     
     private(set) var flipCount = 0 {
         didSet{
-            flipCountLabel.text = "Flips:\(flipCount)"
+            updateFlipCountLabel()
         }
     }
     
-    @IBOutlet private weak var flipCountLabel: UILabel!
+    private func updateFlipCountLabel(){
+        let attributes : [NSAttributedStringKey:Any] = [
+            .strokeWidth:5.0,
+            .strokeColor:#colorLiteral(red: 1, green: 0.5763723254, blue: 0, alpha: 1)
+        ]
+        let attributedString = NSAttributedString(string: "Flips:\(flipCount)", attributes: attributes)
+        flipCountLabel.attributedText = attributedString
+    }
+    
+    @IBOutlet private weak var flipCountLabel: UILabel!{
+        didSet{
+            updateFlipCountLabel()
+        }
+    }
     
     @IBOutlet private var CardButtons: [UIButton]!
     
@@ -52,16 +65,18 @@ class ViewController: UIViewController {
         }
     }
     
-    private var emojiChoice = ["😘","🧐","😑","😸","🤟","🧠","👥","👷‍♂️","👨‍💼","👨‍👦","👢"]
+    // private var emojiChoice = ["😘","🧐","😑","😸","🤟","🧠","👥","👷‍♂️","👨‍💼","👨‍👦","👢"]
+    private var emojiChoice = "😘🧐😑😸🤟🧠👥👷‍♂👨‍💼👨‍👦👢"
     
-    private var emoji = [Int:String]()
+    private var emoji = [Card:String]()
     
     private func emoji(for card: Card) -> String{
         
-        if emoji[card.identifier] == nil , emojiChoice.count > 0{
-//                let x = 5.arc4random
+        if emoji[card] == nil , emojiChoice.count > 0{
+                //let x = 5.arc4random
                 // loading up dictionary,randomly choose one into dictionary
-                emoji[card.identifier] = emojiChoice.remove(at: emojiChoice.count.arc4random)
+                let randomStringIndex = emojiChoice.index(emojiChoice.startIndex, offsetBy: emojiChoice.count.arc4random)
+                emoji[card] = String(emojiChoice.remove(at: randomStringIndex)) // Dictionary 的形式 [Int]=String
             }
         /*
         if emoji[card.identifier] != nil{
@@ -70,7 +85,8 @@ class ViewController: UIViewController {
             return "?"
         }
         */
-        return emoji[card.identifier] ?? "?"
+        return emoji[card] ?? "?"
+        
     }
     
     override func didReceiveMemoryWarning() {

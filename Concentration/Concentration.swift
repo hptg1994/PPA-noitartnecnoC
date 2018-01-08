@@ -16,6 +16,7 @@ struct Concentration{
 
     private(set) var cards = [Card]() //Card 的 Array
     
+    /*
     private var indexOfOneAndOnlyFaceUpCard: Int?{
         get{
             var foundIndex : Int?
@@ -36,6 +37,21 @@ struct Concentration{
             }
         }
     }
+    */
+    private var indexOfOneAndOnlyFaceUpCard: Int?{
+        get{
+            let ch = "hello".oneAndOnly //return nil because it has five element
+            return cards.indices.filter{cards[$0].isFaceUp}.oneAndOnly
+//            let faceUpCardIndices = cards.indices.filter{cards[$0].isFaceUp}
+//            return faceUpCardIndices.count == 1 ? faceUpCardIndices.first : nil
+        }
+        set(newValue){
+            for index in cards.indices{
+                cards[index].isFaceUp = (index == newValue)
+            }
+        }
+    }
+    
     /*
      * All the logic is down below!!!
      */
@@ -45,7 +61,7 @@ struct Concentration{
         
         if !cards[index].isMatched{
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
-                if cards[matchIndex].identifier == cards[index].identifier{
+                if cards[matchIndex] == cards[index]{
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                 }
@@ -66,10 +82,16 @@ struct Concentration{
 //            cards.append(matchingCard)
             cards += [card,matchingCard] // 因为这里只有两个
             if index == numberOfPairsOfCards{
-                print(cards)
+//                print(cards)
             }
         }
         // TODO：Shuffle the cards
+    }
+}
+
+extension Collection {
+    var oneAndOnly:Element?{
+        return count == 1 ? first : nil
     }
 }
 
